@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  lint:
+    container:
+      image: python:3.10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: run lint
+        run: make lint
+
+  static_analysis:
+    container:
+      image: python3.10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: run static analysis
+        run: make sa

@@ -1,0 +1,7 @@
+services:
+  py3:
+    image: python:3.10
+    volumes:
+      - .:/tmp
+    working_dir: /tmp
+    command: make lint sa

@@ -1,0 +1,99 @@
+paths:
+  - src
+
+layers:
+  - name: Contract
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Contract'
+      - type: Module
+        path: 'deptracpy'
+  - name: Analyser
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Core.Analyser'
+  - name: Ast
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Core.Ast'
+  - name: Layer
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Core.Layer'
+  - name: OutputFormatter
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.OutputFormatter'
+  - name: References
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Core.References'
+  - name: Supportive
+    collectors:
+      - type: ModuleRecursive
+        path: 'deptracpy.Supportive'
+  - name: TPCs
+    collectors:
+      - type: ModuleRecursive
+        path: 'libcst'
+      - type: ModuleRecursive
+        path: 'logging'
+      - type: ModuleRecursive
+        path: 're'
+      - type: ModuleRecursive
+        path: 'sys'
+      - type: ModuleRecursive
+        path: 'typing'
+      - type: ModuleRecursive
+        path: 'returns'
+      - type: ModuleRecursive
+        path: 'pathlib'
+      - type: ModuleRecursive
+        path: 'argparse'
+      - type: ModuleRecursive
+        path: 'dataclasses'
+      - type: ModuleRecursive
+        path: 'yaml'
+      - type: ModuleRecursive
+        path: 'rich'
+      - type: ModuleRecursive
+        path: 'glob'
+      - type: ModuleRecursive
+        path: 'os'
+      - type: ModuleRecursive
+        path: 'pydot'
+      - type: ModuleRecursive
+        path: 'importlib'
+      - type: ModuleRecursive
+        path: 'tap'
+
+rulesets:
+  Supportive:
+    - Analyser
+    - OutputFormatter
+    - Contract
+    - TPCs
+  Analyser:
+    - Ast
+    - Layer
+    - References
+    - Contract
+    - TPCs
+  References:
+    - Ast
+    - Contract
+    - TPCs
+  Layer:
+    - Contract
+    - TPCs
+  Ast:
+    - TPCs
+  OutputFormatter:
+    - TPCs
+    - Contract
+  Contract:
+    - TPCs
+
+hidden_layers:
+  - Contract
+  - TPCs
