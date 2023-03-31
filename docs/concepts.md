@@ -4,7 +4,7 @@ At the heart of DepTracPy are three main concepts:
 
 * [**Layers**](#layers) are groups of files that you define
 * [**Rulesets**](#rulesets) describe which layers a layer can communicate with
-* **Violations**show when a layer uses files from another
+* **Violations** show when a layer uses files from another
   layer that is forbidden by the currently configured rulesets.
 
 ## Layers
