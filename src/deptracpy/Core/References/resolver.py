@@ -5,10 +5,6 @@ from deptracpy.Core.Ast.ast_map import AstMap
 
 
 def resolve_references(ast_map: AstMap) -> List[Reference]:
-    """
-
-    :rtype: object
-    """
     references = []
     for file_reference in ast_map.file_references:
         for target_dependency in file_reference.dependencies:
