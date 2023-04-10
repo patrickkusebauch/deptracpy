@@ -61,7 +61,7 @@ layers:
       - type: ModuleRecursive
         path: 'os'
       - type: ModuleRecursive
-        path: 'pydot'
+        path: 'io'
       - type: ModuleRecursive
         path: 'importlib'
       - type: ModuleRecursive
