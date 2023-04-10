@@ -7,8 +7,8 @@ on:
 jobs:
 
   lint:
-    container:
-      image: python:3.10
+    runs-on: ubuntu-latest
+    container: python:3.10
 
     steps:
       - uses: actions/checkout@v3
@@ -17,8 +17,8 @@ jobs:
         run: make lint
 
   static_analysis:
-    container:
-      image: python3.10
+    runs-on: ubuntu-latest
+    container: python:3.10
 
     steps:
       - uses: actions/checkout@v3
