@@ -1,16 +1,69 @@
+from io import open
 from rich.console import Console
 
 from deptracpy.Contract.analysis_result import AnalysisResult
 from deptracpy.Contract.config import DeptracConfig
-from pydot import Node, Edge, Dot
-from typing import Dict
+from typing import Dict, List
 from returns.result import Success
+
+
+class Node:
+    name: str
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+
+class Edge:
+    source: str
+    target: str
+    label: str | int
+    color: str
+
+    def __init__(
+        self, source: str, target: str, label: str | int, color: str = "black"
+    ) -> None:
+        self.source = source
+        self.target = target
+        self.label = label
+        self.color = color
+
+
+class Graph:
+    nodes: List[Node]
+    edges: List[Edge]
+
+    def __init__(self) -> None:
+        self.nodes = []
+        self.edges = []
+
+    def add_node(self, node: Node) -> None:
+        self.nodes.append(node)
+
+    def add_edge(self, edge: Edge) -> None:
+        self.edges.append(edge)
+
+    def write(self, path: str) -> None:
+        string_builder = ["digraph G {\n"]
+
+        for node in self.nodes:
+            string_builder.append(f"{node.name};\n")
+
+        for edge in self.edges:
+            string_builder.append(
+                f"{edge.source} -> {edge.target}  [color={edge.color}, label={edge.label}];\n"
+            )
+
+        string_builder.append("}\n")
+        output = "".join(string_builder)
+        with open(path, mode="wt", encoding=None) as f:
+            f.write(output)
 
 
 def format_dot(
     result: AnalysisResult, config: DeptracConfig
 ) -> Success[AnalysisResult]:
-    graph = Dot()
+    graph = Graph()
 
     for layer in config.layers:
         if layer.name not in config.hidden_layers:
