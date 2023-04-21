@@ -1,9 +1,8 @@
 from io import open
 from rich.console import Console
-
 from deptracpy.Contract.analysis_result import AnalysisResult
 from deptracpy.Contract.config import DeptracConfig
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from returns.result import Success
 
 
@@ -46,18 +45,28 @@ class Graph:
     def write(self, path: str) -> None:
         string_builder = ["digraph G {\n"]
 
-        for node in self.nodes:
-            string_builder.append(f"{node.name};\n")
+        for node in sorted(self.nodes, key=self.__node_sort):
+            string_builder.append(f"\t{node.name};\n")
 
-        for edge in self.edges:
+        string_builder.append("\n")  # newline between nodes and edges
+
+        for edge in sorted(self.edges, key=self.__edge_sort):
             string_builder.append(
-                f"{edge.source} -> {edge.target}  [color={edge.color}, label={edge.label}];\n"
+                f"\t{edge.source} -> {edge.target} [color={edge.color}, label={edge.label}];\n"
             )
 
         string_builder.append("}\n")
         output = "".join(string_builder)
         with open(path, mode="wt", encoding=None) as f:
             f.write(output)
+
+    @staticmethod
+    def __node_sort(node: Node) -> str:
+        return node.name
+
+    @staticmethod
+    def __edge_sort(edge: Edge) -> Tuple[str, str]:
+        return edge.source, edge.target
 
 
 def format_dot(
