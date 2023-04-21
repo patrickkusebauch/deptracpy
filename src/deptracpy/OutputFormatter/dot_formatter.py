@@ -48,7 +48,7 @@ class Graph:
         for node in sorted(self.nodes, key=self.__node_sort):
             string_builder.append(f"\t{node.name};\n")
 
-        string_builder.append(f"\n")  # newline between nodes and edges
+        string_builder.append("\n")  # newline between nodes and edges
 
         for edge in sorted(self.edges, key=self.__edge_sort):
             string_builder.append(
@@ -59,7 +59,6 @@ class Graph:
         output = "".join(string_builder)
         with open(path, mode="wt", encoding=None) as f:
             f.write(output)
-
 
     @staticmethod
     def __node_sort(node: Node) -> str:
