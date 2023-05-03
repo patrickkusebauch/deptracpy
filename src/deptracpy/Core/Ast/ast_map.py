@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Dict
 from dataclasses import dataclass
 
 import libcst as cst
@@ -9,14 +8,14 @@ import libcst.metadata.scope_provider as scope_provider
 
 @dataclass
 class AstMap:
-    file_references: List[AstFile]
+    file_references: list[AstFile]
 
 
 @dataclass(frozen=True)
 class AstFile:
     path: str
     root: str
-    dependencies: List[AstReference]
+    dependencies: list[AstReference]
 
 
 @dataclass(frozen=True)
@@ -27,7 +26,7 @@ class AstReference:
 class AstFileBuilder:
     path: str
     root: str
-    dependencies: Dict[str, AstReference]
+    dependencies: dict[str, AstReference]
 
     def __init__(self, path: str, root: str):
         self.path = path
@@ -38,8 +37,8 @@ class AstFileBuilder:
         return AstFile(self.path, self.root, list(self.dependencies.values()))
 
 
-def references_from_fqn_provider(wrapper: cst.metadata.MetadataWrapper) -> List[str]:
-    references: List[str] = []
+def references_from_fqn_provider(wrapper: cst.metadata.MetadataWrapper) -> list[str]:
+    references: list[str] = []
 
     fq_names = wrapper.resolve(cst.metadata.FullyQualifiedNameProvider)
     for node, qualified_names in fq_names.items():
@@ -50,8 +49,8 @@ def references_from_fqn_provider(wrapper: cst.metadata.MetadataWrapper) -> List[
 
 
 # todo: @Clean-up: This function is currently unused, but might be useful (patrick @ 2023-03-25)
-def references_from_scope_provider(wrapper: cst.metadata.MetadataWrapper) -> List[str]:
-    references: List[str] = []
+def references_from_scope_provider(wrapper: cst.metadata.MetadataWrapper) -> list[str]:
+    references: list[str] = []
     scopes: set[scope_provider.Scope] = set(wrapper.resolve(cst.metadata.ScopeProvider).values())  # type: ignore
     for scope in scopes:
         for assignment in scope.assignments:
@@ -66,7 +65,7 @@ def references_from_scope_provider(wrapper: cst.metadata.MetadataWrapper) -> Lis
     return references
 
 
-def build_ast_map(files_in_paths: Dict[str, List[str]]) -> AstMap:
+def build_ast_map(files_in_paths: dict[str, list[str]]) -> AstMap:
     ast_map = AstMap([])
     for root_path, files in files_in_paths.items():
         repo_manager = cst.metadata.FullRepoManager(

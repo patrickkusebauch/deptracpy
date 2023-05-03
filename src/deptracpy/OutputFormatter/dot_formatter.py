@@ -2,8 +2,6 @@ from io import open
 from rich.console import Console
 from deptracpy.Contract.analysis_result import AnalysisResult
 from deptracpy.Contract.config import DeptracConfig
-from typing import Dict, List, Tuple
-from returns.result import Success
 
 
 class Node:
@@ -29,8 +27,8 @@ class Edge:
 
 
 class Graph:
-    nodes: List[Node]
-    edges: List[Edge]
+    nodes: list[Node]
+    edges: list[Edge]
 
     def __init__(self) -> None:
         self.nodes = []
@@ -65,13 +63,11 @@ class Graph:
         return node.name
 
     @staticmethod
-    def __edge_sort(edge: Edge) -> Tuple[str, str]:
+    def __edge_sort(edge: Edge) -> tuple[str, str]:
         return edge.source, edge.target
 
 
-def format_dot(
-    result: AnalysisResult, config: DeptracConfig
-) -> Success[AnalysisResult]:
+def format_dot(result: AnalysisResult, config: DeptracConfig) -> None:
     graph = Graph()
 
     for layer in config.layers:
@@ -79,7 +75,7 @@ def format_dot(
             graph.add_node(Node(layer.name))
 
     # source -> (target -> (count, has_violation))
-    edges: Dict[str, Dict[str, tuple[int, bool]]] = {}
+    edges: dict[str, dict[str, tuple[int, bool]]] = {}
     for dependency in result.allowed:
         if dependency.source_layer not in edges.keys():
             edges[dependency.source_layer] = {}
@@ -119,5 +115,3 @@ def format_dot(
     graph.write(filename)
     console = Console(color_system="standard")
     console.print(f"Dot file outputted into '{filename}'")
-
-    return Success(result)

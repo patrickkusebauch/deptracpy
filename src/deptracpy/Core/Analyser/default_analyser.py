@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from returns.pipeline import is_successful
 
 from deptracpy.Core.Analyser.input_loader import load_files
@@ -13,7 +11,6 @@ from deptracpy.Contract.analysis_result import (
     Error,
     Reference,
 )
-from deptracpy.Contract.argument_parser import ArgumentParser
 
 from returns.result import Result, Success, Failure
 
@@ -21,7 +18,7 @@ from returns.result import Result, Success, Failure
 # todo: @Note: Cannot use `returns.curry.partial` as filter: https://github.com/dry-python/returns/issues/1433 (
 #  patrick @ 2023-03-26)
 # todo: @Investigate: It would have been nicer is rulesets were a dictionary (patrick @ 2023-03-25)
-def is_allowed(source: str, target: str, rulesets: List[RulesetConfig]) -> bool:
+def is_allowed(source: str, target: str, rulesets: list[RulesetConfig]) -> bool:
     for ruleset in rulesets:
         if match_ruleset_name(source, ruleset):
             return target in ruleset.target_layers
@@ -36,13 +33,9 @@ def doesnt_depend_on_its_own_layer(dependency: Dependency) -> bool:
     return dependency.source_layer != dependency.target_layer
 
 
-def analyse(
-    args: Tuple[ArgumentParser, DeptracConfig]
-) -> Result[Tuple[ArgumentParser, DeptracConfig, AnalysisResult], str]:
-    parser, config = args
-
+def analyse(config: DeptracConfig) -> Result[AnalysisResult, str]:
     ast_map: AstMap = get_ast_map(config)
-    references: List[Reference] = resolve_references(ast_map)
+    references: list[Reference] = resolve_references(ast_map)
 
     resolution = resolve_dependencies(config.layers, references)
     if not is_successful(resolution):
@@ -65,17 +58,17 @@ def analyse(
     for error in errors:
         result.add_error(error)
 
-    return Success((parser, config, result))
+    return Success(result)
 
 
 # todo: @Note: Cannot use `returns.curry.partial` as to bake `layers` into `get_layers_for_token`:
 #  https://github.com/dry-python/returns/issues/1433 (patrick @ 2023-03-26)
 def resolve_dependencies(
-    layers: List[LayerConfig], references: List[Reference]
-) -> Result[tuple[List[Dependency], List[tuple[str, str]], List[Error]], str]:
-    dependencies: List[Dependency] = []
-    uncovered: List[tuple[str, str]] = []
-    errors: List[Error] = []
+    layers: list[LayerConfig], references: list[Reference]
+) -> Result[tuple[list[Dependency], list[tuple[str, str]], list[Error]], str]:
+    dependencies: list[Dependency] = []
+    uncovered: list[tuple[str, str]] = []
+    errors: list[Error] = []
 
     for reference in references:
         # source layer processing

@@ -6,3 +6,4 @@ src/deptracpy/Supportive/config_loader.py:0: error: Expression has type "Any"  [
 src/deptracpy/Supportive/config_loader.py:0: error: Expression has type "Any"  [misc]
 src/deptracpy/Supportive/config_loader.py:0: error: Expression has type "Any"  [misc]
 src/deptracpy/Supportive/config_loader.py:0: error: Expression has type "Any"  [misc]
+src/deptracpy/Supportive/entrypoint.py:0: error: Missing return statement  [return]

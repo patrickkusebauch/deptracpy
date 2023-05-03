@@ -1,5 +1,3 @@
-from typing import List
-
 from deptracpy.Contract.config import LayerConfig
 
 from returns.result import Result, Success, Failure
@@ -24,9 +22,9 @@ def recursive_module_collector_match(token: str, path: str) -> bool:
 
 # todo: @Incomplete: caching (patrick @ 2023-03-17)
 def get_layers_for_token(
-    layer_definitions: List[LayerConfig], token: str
-) -> Result[List[str], str]:
-    layers: List[str] = []
+    layer_definitions: list[LayerConfig], token: str
+) -> Result[list[str], str]:
+    layers: list[str] = []
     for layer_definition in layer_definitions:
         is_matching = False
         for collector in layer_definition.collectors:

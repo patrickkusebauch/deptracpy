@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List, Set
 
 
 @dataclass(frozen=True)
@@ -22,10 +21,10 @@ class Error:
 
 
 class AnalysisResult:
-    allowed: List[Dependency]
-    uncovered: Set[tuple[str, str]]  # target_token, type
-    violations: List[Dependency]
-    errors: List[Error]
+    allowed: list[Dependency]
+    uncovered: set[tuple[str, str]]  # target_token, type
+    violations: list[Dependency]
+    errors: list[Error]
 
     def __init__(self) -> None:
         self.allowed = []
@@ -36,8 +35,8 @@ class AnalysisResult:
     def add_allowed(self, dependency: Dependency) -> None:
         self.allowed.append(dependency)
 
-    def add_uncovered(self, target_token: str, type: str) -> None:
-        self.uncovered.add((target_token, type))
+    def add_uncovered(self, target_token: str, coverage_type: str) -> None:
+        self.uncovered.add((target_token, coverage_type))
 
     def add_violation(self, dependency: Dependency) -> None:
         self.violations.append(dependency)
