@@ -2,6 +2,7 @@ import argparse
 import os
 from tap import Tap
 from deptracpy import __version__
+from typing_extensions import Literal
 import logging
 
 
@@ -14,7 +15,7 @@ def file_exists_for_argparse(x: str) -> str:
 class ArgumentParser(Tap):
     loglevel: int = logging.ERROR
     config: str
-    formatter: str
+    formatter: Literal["console", "dot"]
 
     def configure(self) -> None:
         self.add_argument(
@@ -35,7 +36,6 @@ class ArgumentParser(Tap):
             "--formatter",
             dest="formatter",
             help="formatter",
-            type=str,
             default="console",
             nargs="?",
         )

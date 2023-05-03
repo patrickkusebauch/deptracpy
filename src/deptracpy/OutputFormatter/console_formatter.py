@@ -1,13 +1,10 @@
-from typing import List, Dict
-
 from rich.console import Console
 from rich.table import Table
 
 from deptracpy.Contract.analysis_result import AnalysisResult, Dependency
-from returns.result import Success
 
 
-def format_console(result: AnalysisResult) -> Success[AnalysisResult]:
+def format_console(result: AnalysisResult) -> None:
     console = Console(color_system="standard")
 
     # Warnings
@@ -21,7 +18,7 @@ def format_console(result: AnalysisResult) -> Success[AnalysisResult]:
         console.print(f"[red]Error: [/red] {message}\n")
 
     # Violations
-    violations: Dict[str, List[Dependency]] = {}
+    violations: dict[str, list[Dependency]] = {}
     for dependency in result.violations:
         if dependency.source_layer not in violations.keys():
             violations[dependency.source_layer] = []
@@ -44,4 +41,3 @@ def format_console(result: AnalysisResult) -> Success[AnalysisResult]:
     table.add_row("[red]Violations", str(len(result.violations)))
     table.add_row("[red]Errors", str(len(result.errors)))
     console.print(table)
-    return Success(result)

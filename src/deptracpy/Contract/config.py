@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass(frozen=True)
@@ -11,18 +10,18 @@ class CollectorConfig:
 @dataclass(frozen=True)
 class LayerConfig:
     name: str
-    collectors: List[CollectorConfig]
+    collectors: list[CollectorConfig]
 
 
 @dataclass(frozen=True)
 class RulesetConfig:
     source_layer: str
-    target_layers: List[str]
+    target_layers: list[str]
 
 
 @dataclass(frozen=True)
 class DeptracConfig:
-    paths: List[str]
-    layers: List[LayerConfig]
-    rulesets: List[RulesetConfig]
-    hidden_layers: List[str]
+    paths: list[str]
+    layers: list[LayerConfig]
+    rulesets: list[RulesetConfig]
+    hidden_layers: list[str]
